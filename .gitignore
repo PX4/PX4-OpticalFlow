@@ -1,0 +1,9 @@
+# folders
+build
+
+# test files
+test_flow.cpp
+
+# test images
+*.png
+*.jpg
