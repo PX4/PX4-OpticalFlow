@@ -16,12 +16,11 @@ class OpticalFlowPX4 : public OpticalFlow {
 
   private:
     //params which can be set
-    int feature_threshold;
     PX4Flow *px4_flow;
 
   public:
 
-    OpticalFlowPX4( float f_length_x, float f_length_y, int feat_thresh,
+    OpticalFlowPX4( float f_length_x, float f_length_y,
           int image_width = 64, int search_size = 5, int flow_feature_threshold = 30,
           int flow_value_threshold = 3000 );
     ~OpticalFlowPX4();

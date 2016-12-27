@@ -11,10 +11,9 @@
 #include "flow_px4.hpp"
 #include <iostream>
 
-OpticalFlowPX4::OpticalFlowPX4( float f_length_x, float f_length_y, int feat_thresh,
+OpticalFlowPX4::OpticalFlowPX4( float f_length_x, float f_length_y,
       int image_width, int search_size, int flow_feature_threshold,
-      int flow_value_threshold) :
-  feature_threshold(feat_thresh)
+      int flow_value_threshold)
 {
   setFocalLengthX(f_length_x);
   setFocalLengthY(f_length_y);
