@@ -48,5 +48,7 @@ int OpticalFlowPX4::calcFlow(const cv::Mat &img_current, float &flow_x, float &f
   flow_x = atan2(flow_x, focal_length_x);
   flow_y = atan2(flow_y, focal_length_y);
 
+  img_current.copyTo(img_old);
+
   return flow_quality;
 }
