@@ -36,7 +36,7 @@ class OpticalFlowOpenCV : public OpticalFlow {
     inline int getNumFeatures() { return num_features; };
     inline int getConfMultiplier() { return confidence_multiplier; };
 
-    OpticalFlowOpenCV( float f_length_x, float f_length_y, int num_feat, float conf_multi );
+    OpticalFlowOpenCV( float f_length_x, float f_length_y, int num_feat = 30, float conf_multi = 1.645f );
     ~OpticalFlowOpenCV();
 
     int calcFlow( const cv::Mat &img_current, float &flow_x, float &flow_y );
