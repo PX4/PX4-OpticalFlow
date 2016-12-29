@@ -11,8 +11,7 @@
 #include <cv.h>
 #include <cmath>
 
-#include "opencv2/xfeatures2d.hpp"
-#include "opencv2/highgui.hpp"
+#include "opencv2/features2d/features2d.hpp"
 #include "opencv2/video/tracking.hpp"
 
 #include "optical_flow.hpp"
