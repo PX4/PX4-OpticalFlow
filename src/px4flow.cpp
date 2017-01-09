@@ -453,119 +453,30 @@ uint8_t PX4Flow::compute_flow(uint8_t *image1, uint8_t *image2, float x_rate, fl
 		/* check if there is a peak value in histogram */
 		if (1) //(histx[maxpositionx] > meancount / 6 && histy[maxpositiony] > meancount / 6)
 		{
-			if (1/*FLOAT_AS_BOOL(global_data.param[PARAM_BOTTOM_FLOW_HIST_FILTER])*/)
+
+			/* use average of accepted flow values */
+			uint32_t meancount_x = 0;
+			uint32_t meancount_y = 0;
+
+			for (uint8_t h = 0; h < meancount; h++)
 			{
+				float subdirx = 0.0f;
+				if (subdirs[h] == 0 || subdirs[h] == 1 || subdirs[h] == 7) subdirx = 0.5f;
+				if (subdirs[h] == 3 || subdirs[h] == 4 || subdirs[h] == 5) subdirx = -0.5f;
+				histflowx += (float)dirsx[h] + subdirx;
+				meancount_x++;
 
-				/* use histogram filter peek value */
-				uint16_t hist_x_min = maxpositionx;
-				uint16_t hist_x_max = maxpositionx;
-				uint16_t hist_y_min = maxpositiony;
-				uint16_t hist_y_max = maxpositiony;
-
-				/* x direction */
-				if (maxpositionx > 1 && maxpositionx < hist_size-2)
-				{
-					hist_x_min = maxpositionx - 2;
-					hist_x_max = maxpositionx + 2;
-				}
-				else if (maxpositionx == 0)
-				{
-					hist_x_min = maxpositionx;
-					hist_x_max = maxpositionx + 2;
-				}
-				else  if (maxpositionx == hist_size-1)
-				{
-					hist_x_min = maxpositionx - 2;
-					hist_x_max = maxpositionx;
-				}
-				else if (maxpositionx == 1)
-				{
-					hist_x_min = maxpositionx - 1;
-					hist_x_max = maxpositionx + 2;
-				}
-				else  if (maxpositionx == hist_size-2)
-				{
-					hist_x_min = maxpositionx - 2;
-					hist_x_max = maxpositionx + 1;
-				}
-
-				/* y direction */
-				if (maxpositiony > 1 && maxpositiony < hist_size-2)
-				{
-					hist_y_min = maxpositiony - 2;
-					hist_y_max = maxpositiony + 2;
-				}
-				else if (maxpositiony == 0)
-				{
-					hist_y_min = maxpositiony;
-					hist_y_max = maxpositiony + 2;
-				}
-				else if (maxpositiony == hist_size-1)
-				{
-					hist_y_min = maxpositiony - 2;
-					hist_y_max = maxpositiony;
-				}
-				else if (maxpositiony == 1)
-				{
-					hist_y_min = maxpositiony - 1;
-					hist_y_max = maxpositiony + 2;
-				}
-				else if (maxpositiony == hist_size-2)
-				{
-					hist_y_min = maxpositiony - 2;
-					hist_y_max = maxpositiony + 1;
-				}
-
-				float hist_x_value = 0.0f;
-				float hist_x_weight = 0.0f;
-
-				float hist_y_value = 0.0f;
-				float hist_y_weight = 0.0f;
-
-				for (uint8_t h = hist_x_min; h < hist_x_max+1; h++)
-				{
-					hist_x_value += (float) (h*histx[h]);
-					hist_x_weight += (float) histx[h];
-				}
-
-				for (uint8_t h = hist_y_min; h<hist_y_max+1; h++)
-				{
-					hist_y_value += (float) (h*histy[h]);
-					hist_y_weight += (float) histy[h];
-				}
-
-				histflowx = (hist_x_value/hist_x_weight - (winmax-winmin+1)) / 2.0f ;
-				histflowy = (hist_y_value/hist_y_weight - (winmax-winmin+1)) / 2.0f;
-
-			}
-			else
-			{
-
-				/* use average of accepted flow values */
-				uint32_t meancount_x = 0;
-				uint32_t meancount_y = 0;
-
-				for (uint8_t h = 0; h < meancount; h++)
-				{
-					float subdirx = 0.0f;
-					if (subdirs[h] == 0 || subdirs[h] == 1 || subdirs[h] == 7) subdirx = 0.5f;
-					if (subdirs[h] == 3 || subdirs[h] == 4 || subdirs[h] == 5) subdirx = -0.5f;
-					histflowx += (float)dirsx[h] + subdirx;
-					meancount_x++;
-
-					float subdiry = 0.0f;
-					if (subdirs[h] == 5 || subdirs[h] == 6 || subdirs[h] == 7) subdiry = -0.5f;
-					if (subdirs[h] == 1 || subdirs[h] == 2 || subdirs[h] == 3) subdiry = 0.5f;
-					histflowy += (float)dirsy[h] + subdiry;
-					meancount_y++;
-				}
-
-				histflowx /= meancount_x;
-				histflowy /= meancount_y;
-
+				float subdiry = 0.0f;
+				if (subdirs[h] == 5 || subdirs[h] == 6 || subdirs[h] == 7) subdiry = -0.5f;
+				if (subdirs[h] == 1 || subdirs[h] == 2 || subdirs[h] == 3) subdiry = 0.5f;
+				histflowy += (float)dirsy[h] + subdiry;
+				meancount_y++;
 			}
 
-      /* without gyro compensation */
+			histflowx /= meancount_x;
+			histflowy /= meancount_y;
+
+			/* without gyro compensation */
 			*pixel_flow_x = histflowx;
 			*pixel_flow_y = histflowy;
 
