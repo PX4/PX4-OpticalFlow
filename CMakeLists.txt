@@ -1,4 +1,8 @@
 cmake_minimum_required( VERSION 2.8.3 )
+if( POLICY CMP0048 )
+  # Silence CMP0048 warning about missing project VERSION.
+  cmake_policy(SET CMP0048 NEW)
+endif()
 project( OpticalFlow )
 set(version_major 0)
 set(version_minor 1)
