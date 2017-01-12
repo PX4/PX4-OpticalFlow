@@ -20,11 +20,12 @@ class OpticalFlowPX4 : public OpticalFlow {
 
   public:
 
-    OpticalFlowPX4( float f_length_x, float f_length_y,
+    OpticalFlowPX4( float f_length_x, float f_length_y, int ouput_rate = DEFAULT_OUTPUT_RATE,
           int image_width = 64, int search_size = 5, int flow_feature_threshold = 30,
           int flow_value_threshold = 3000 );
     ~OpticalFlowPX4();
 
-    int calcFlow(const cv::Mat &img_current, float &flow_x, float &flow_y);
+    int calcFlow(const cv::Mat &img_current, const uint32_t &img_time_us, int &dt_us,
+      float &flow_x, float &flow_y);
 
 };

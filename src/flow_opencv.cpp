@@ -11,12 +11,15 @@
  * OpenCV optical flow calculation
  ****************************************************************************/
 
- OpticalFlowOpenCV::OpticalFlowOpenCV( float f_length_x, float f_length_y, int num_feat, float conf_multi ) :
+ OpticalFlowOpenCV::OpticalFlowOpenCV( float f_length_x, float f_length_y, int ouput_rate, int num_feat, float conf_multi ) :
    num_features(num_feat),
    confidence_multiplier(conf_multi)
 {
    setFocalLengthX(f_length_x);
    setFocalLengthY(f_length_y);
+   setOutputRate(ouput_rate);
+
+   initLimitRate();
  }
 
 OpticalFlowOpenCV::~OpticalFlowOpenCV( void )
@@ -24,7 +27,8 @@ OpticalFlowOpenCV::~OpticalFlowOpenCV( void )
 
 }
 
-int OpticalFlowOpenCV::calcFlow(const cv::Mat &img_current, float &flow_x, float &flow_y) {
+int OpticalFlowOpenCV::calcFlow(const cv::Mat &img_current, const uint32_t &img_time_us, int &dt_us,
+  float &flow_x, float &flow_y) {
 
   if (updateVector.empty())
     updateVector.resize(num_features, 2);
@@ -111,10 +115,15 @@ int OpticalFlowOpenCV::calcFlow(const cv::Mat &img_current, float &flow_x, float
   }
 
   //output
-  flow_x = atan2(pixel_flow_x_mean, focal_length_x);
-  flow_y = atan2(pixel_flow_y_mean, focal_length_y);
+  flow_x = pixel_flow_x_mean;
+  flow_y = pixel_flow_y_mean;
 
   int flow_quality = round(255.0 * meancount / updateVector.size());
+
+  flow_quality = limitRate(flow_quality, img_time_us, &dt_us, &flow_x, &flow_y);
+
+  flow_x = atan2(flow_x, focal_length_x); //convert pixel flow to angular flow
+  flow_y = atan2(flow_y, focal_length_y); //convert pixel flow to angular flow
 
   return flow_quality;
 }
