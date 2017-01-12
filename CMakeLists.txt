@@ -29,7 +29,8 @@ include_directories(
 )
 
 add_library( OpticalFlow SHARED
-	src/px4flow.cpp
+  src/optical_flow.cpp
+  src/px4flow.cpp
  	src/flow_px4.cpp
 	src/flow_opencv.cpp
 )
