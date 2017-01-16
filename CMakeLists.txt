@@ -101,11 +101,23 @@ endif()
 target_include_directories(OpticalFlow PUBLIC include)
 
 # Generate the Config file from the .in file, doing @VAR@ substitution only
-<<<<<<< HEAD
 configure_file(OpticalFlowConfig.cmake.in FindOpticalFlow.cmake @ONLY)
 
-# Append build dir to CMAKE_MODULE_PATH, so find_package(OpticalFlow) can find FindOpticalFlow.cmake
-message(STATUS "Appending ${CMAKE_BINARY_DIR} to CMAKE_MODULE_PATH.")
-message(STATUS "CMAKE_BINARY_DIR = ${CMAKE_BINARY_DIR}")
-# CMakeLists.txt no longer sets CMAKE_MODULE_PATH, this is up to the user (PX4 in this case)
-#LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR}")
+# INSTALL STEPS
+INSTALL(
+  TARGETS OpticalFlow
+  RUNTIME DESTINATION lib
+  LIBRARY DESTINATION lib)
+
+INSTALL(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/external/klt_feature_tracker/include/
+  DESTINATION include)
+
+INSTALL(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/
+  DESTINATION include)
+
+INSTALL(
+  FILES ${CMAKE_BINARY_DIR}/FindOpticalFlow.cmake
+  DESTINATION ${CMAKE_INSTALL_PREFIX})
+
