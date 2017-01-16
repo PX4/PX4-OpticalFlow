@@ -1,5 +1,6 @@
 # folders
-build
+build/
+install/
 
 # test files
 test_flow.cpp

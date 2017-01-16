@@ -3,8 +3,6 @@
 #  OpticalFlow_INCLUDE_DIRS - include directories
 #  OpticalFlow_LIBRARIES    - libraries to link against
  
-set(OpticalFlow_INCLUDE_DIRS "@OpticalFlow_INCLUDE_DIRS@")
- 
-set(OpticalFlow_LIBRARIES foo)
-
-# OpticalFlow_FOUND is set to "1" by FIND_PACKAGE().
+set(OpticalFlow_INCLUDE_DIRS "@CMAKE_INSTALL_PREFIX@/include")
+set(OpticalFlow_LIBRARY_DIR "@CMAKE_INSTALL_PREFIX@/lib")
+set(OpticalFlow_LIBRARIES OpticalFlow)
