@@ -104,5 +104,6 @@ target_include_directories(OpticalFlow PUBLIC include)
 configure_file(OpticalFlowConfig.cmake.in FindOpticalFlow.cmake @ONLY)
 
 # Append build dir to CMAKE_MODULE_PATH, so find_package(OpticalFlow) can find FindOpticalFlow.cmake
-message(STATUS "Appending ${CMAKE_CURRENT_BINARY_DIR} to CMAKE_MODULE_PATH.")
-LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_BINARY_DIR}")
+message(STATUS "Appending ${CMAKE_BINARY_DIR} to CMAKE_MODULE_PATH.")
+message(STATUS "CMAKE_BINARY_DIR = ${CMAKE_BINARY_DIR}")
+LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR}")
