@@ -4,5 +4,5 @@
 #  OpticalFlow_LIBRARIES    - libraries to link against
  
 set(OpticalFlow_INCLUDE_DIRS "@CMAKE_INSTALL_PREFIX@/include")
-set(OpticalFlow_LIBRARY_DIR "@CMAKE_INSTALL_PREFIX@/lib")
-set(OpticalFlow_LIBRARIES OpticalFlow)
+#set(OpticalFlow_LIBRARY_DIR "@CMAKE_INSTALL_PREFIX@/lib")
+FIND_LIBRARY(OpticalFlow_LIBRARIES OpticalFlow PATHS "@CMAKE_INSTALL_PREFIX@/lib" NO_DEFAULT_PATH)
