@@ -1,0 +1,10 @@
+# - Config file for the OpticalFlow package
+# It defines the following variables
+#  OpticalFlow_INCLUDE_DIRS - include directories
+#  OpticalFlow_LIBRARIES    - libraries to link against
+ 
+set(OpticalFlow_INCLUDE_DIRS "@OpticalFlow_INCLUDE_DIRS@")
+ 
+set(OpticalFlow_LIBRARIES foo)
+
+# OpticalFlow_FOUND is set to "1" by FIND_PACKAGE().

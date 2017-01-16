@@ -58,11 +58,13 @@ set( klt_feature_tracker_LIBS "klt_feature_tracker" )
 if(OpenCV_FOUND)
     message(STATUS "Building ${PROJECT_NAME} with OpenCV")
 
-    include_directories(
-    	include
+    set(OpticalFlow_INCLUDE_DIRS 
+      ${CMAKE_CURRENT_SOURCE_DIR}/include
       ${klt_feature_tracker_INCLUDE_DIRS}
-    	${OpenCV_INCLUDE_DIRS}
+      ${OpenCV_INCLUDE_DIRS}
     )
+
+    include_directories(OpticalFlow_INCLUDE_DIRS)
 
     add_library( OpticalFlow SHARED
       src/optical_flow.cpp
@@ -78,10 +80,12 @@ if(OpenCV_FOUND)
 else()
     message(STATUS "Building ${PROJECT_NAME} without OpenCV")
 
-    include_directories(
-    	include
+    set(OpticalFlow_INCLUDE_DIRS 
+      ${CMAKE_CURRENT_SOURCE_DIR}/include
       ${klt_feature_tracker_INCLUDE_DIRS}
     )
+
+    include_directories(OpticalFlow_INCLUDE_DIRS)
 
     add_library( OpticalFlow SHARED
       src/optical_flow.cpp
@@ -95,3 +99,10 @@ else()
 endif()
 
 target_include_directories(OpticalFlow PUBLIC include)
+
+# Generate the Config file from the .in file, doing @VAR@ substitution only
+configure_file(OpticalFlowConfig.cmake.in FindOpticalFlow.cmake @ONLY)
+
+# Append build dir to CMAKE_MODULE_PATH, so find_package(OpticalFlow) can find FindOpticalFlow.cmake
+message(STATUS "Appending ${CMAKE_CURRENT_BINARY_DIR} to CMAKE_MODULE_PATH.")
+LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_BINARY_DIR}")
