@@ -55,22 +55,43 @@ find_package( OpenCV REQUIRED )
 add_subdirectory( external/klt_feature_tracker klt_feature_tracker )
 set( klt_feature_tracker_LIBS "klt_feature_tracker" )
 
-include_directories(
-	include
-  ${klt_feature_tracker_INCLUDE_DIRS}
-	${OpenCV_INCLUDE_DIRS}
-)
+if(OpenCV_FOUND)
+    message(STATUS "Building ${PROJECT_NAME} with OpenCV")
 
-add_library( OpticalFlow SHARED
-  src/optical_flow.cpp
-  src/px4flow.cpp
- 	src/flow_px4.cpp
-	src/flow_opencv.cpp
-)
+    include_directories(
+    	include
+      ${klt_feature_tracker_INCLUDE_DIRS}
+    	${OpenCV_INCLUDE_DIRS}
+    )
 
-target_link_libraries( OpticalFlow
-  ${OpenCV_LIBS}
-  ${klt_feature_tracker_LIBS}
-)
+    add_library( OpticalFlow SHARED
+      src/optical_flow.cpp
+      src/px4flow.cpp
+     	src/flow_px4.cpp
+    	src/flow_opencv.cpp
+    )
+
+    target_link_libraries( OpticalFlow
+      ${OpenCV_LIBS}
+      ${klt_feature_tracker_LIBS}
+    )
+else()
+    message(STATUS "Building ${PROJECT_NAME} without OpenCV")
+
+    include_directories(
+    	include
+      ${klt_feature_tracker_INCLUDE_DIRS}
+    )
+
+    add_library( OpticalFlow SHARED
+      src/optical_flow.cpp
+      src/px4flow.cpp
+     	src/flow_px4.cpp
+    )
+
+    target_link_libraries( OpticalFlow
+      ${klt_feature_tracker_LIBS}
+    )
+endif()
 
 target_include_directories(OpticalFlow PUBLIC include)

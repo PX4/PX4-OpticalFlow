@@ -40,7 +40,6 @@
 
 #pragma once
 
-#include <cv.h>
 #include "optical_flow.hpp"
 #include "px4flow.hpp"
 
@@ -55,16 +54,17 @@ class OpticalFlowPX4 : public OpticalFlow
 private:
 
 	PX4Flow *px4_flow;
+  bool initialized;
 
 public:
 
 	OpticalFlowPX4(float f_length_x, float f_length_y, int ouput_rate = DEFAULT_OUTPUT_RATE,
-		       int image_width = DEFAULT_IMAGE_WIDTH, int search_size = DEFAULT_SEARCH_SIZE,
+		       int img_width = DEFAULT_IMAGE_WIDTH, int search_size = DEFAULT_SEARCH_SIZE,
 		       int flow_feature_threshold = DEFAULT_FLOW_FEATURE_THRESHOLD,
 		       int flow_value_threshold = DEFAULT_FLOW_VALUE_THRESHOLD);
 	~OpticalFlowPX4();
 
-	int calcFlow(const cv::Mat &img_current, const uint32_t &img_time_us, int &dt_us,
+	int calcFlow(uint8_t *img_current, const uint32_t &img_time_us, int &dt_us,
 		     float &flow_x, float &flow_y);
 
 };

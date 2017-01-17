@@ -76,7 +76,7 @@ public:
 			  int num_feat = DEFAULT_NUMBER_OF_FEATURES, float conf_multi = DEFAULT_CONFIDENCE_MULTIPLIER);
 	~OpticalFlowOpenCV();
 
-	int calcFlow(const cv::Mat &img_current, const uint32_t &img_time_us, int &dt_us,
+	int calcFlow(uint8_t *img_current, const uint32_t &img_time_us, int &dt_us,
 		     float &flow_x, float &flow_y);
 
 };
