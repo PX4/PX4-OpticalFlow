@@ -73,7 +73,8 @@ public:
 	inline int getConfMultiplier() { return confidence_multiplier; };
 
 	OpticalFlowOpenCV(float f_length_x, float f_length_y, int output_rate = DEFAULT_OUTPUT_RATE,
-			  int num_feat = DEFAULT_NUMBER_OF_FEATURES, float conf_multi = DEFAULT_CONFIDENCE_MULTIPLIER);
+			  int img_width = DEFAULT_IMAGE_WIDTH, int img_height = DEFAULT_IMAGE_HEIGHT, int num_feat = DEFAULT_NUMBER_OF_FEATURES,
+			  float conf_multi = DEFAULT_CONFIDENCE_MULTIPLIER);
 	~OpticalFlowOpenCV();
 
 	int calcFlow(uint8_t *img_current, const uint32_t &img_time_us, int &dt_us,
