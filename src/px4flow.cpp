@@ -44,7 +44,6 @@
 #include "px4flow.hpp"
 
 
-#define FRAME_SIZE	image_width;
 #define TILE_SIZE	8										// x & y tile size
 #define NUM_BLOCKS	5 // x & y number of tiles to check
 
@@ -358,7 +357,7 @@ uint8_t PX4Flow::compute_flow(uint8_t *image1, uint8_t *image2, float x_rate, fl
 
 	/* variables */
 	uint16_t pixLo = search_size + 1;
-	uint16_t pixHi = FRAME_SIZE - (search_size + 1) - TILE_SIZE;
+	uint16_t pixHi = image_width - (search_size + 1) - TILE_SIZE;
 	uint16_t pixStep = (pixHi - pixLo) / NUM_BLOCKS + 1;
 	uint16_t i, j;
 	uint32_t acc[8]; // subpixels
@@ -392,10 +391,7 @@ uint8_t PX4Flow::compute_flow(uint8_t *image1, uint8_t *image2, float x_rate, fl
 			int8_t sumy = 0;
 			int8_t ii, jj;
 
-			uint8_t *base1 = image1 + j * image_width + i;
-
 			for (jj = winmin; jj <= winmax; jj++) {
-				uint8_t *base2 = image2 + (j + jj) * image_width + i;
 
 				for (ii = winmin; ii <= winmax; ii++) {
 					uint32_t temp_dist = compute_sad_8x8(image1, image2, i, j, i + ii, j + jj, image_width);
@@ -455,23 +451,23 @@ uint8_t PX4Flow::compute_flow(uint8_t *image1, uint8_t *image2, float x_rate, fl
 		meanflowx /= meancount;
 		meanflowy /= meancount;
 
-		int16_t maxpositionx = 0;
-		int16_t maxpositiony = 0;
-		uint16_t maxvaluex = 0;
-		uint16_t maxvaluey = 0;
-
-		/* position of maximal histogram peek */
-		for (j = 0; j < hist_size; j++) {
-			if (histx[j] > maxvaluex) {
-				maxvaluex = histx[j];
-				maxpositionx = j;
-			}
-
-			if (histy[j] > maxvaluey) {
-				maxvaluey = histy[j];
-				maxpositiony = j;
-			}
-		}
+		// int16_t maxpositionx = 0;
+		// int16_t maxpositiony = 0;
+		// uint16_t maxvaluex = 0;
+		// uint16_t maxvaluey = 0;
+		//
+		// /* position of maximal histogram peek */
+		// for (j = 0; j < hist_size; j++) {
+		// 	if (histx[j] > maxvaluex) {
+		// 		maxvaluex = histx[j];
+		// 		maxpositionx = j;
+		// 	}
+		//
+		// 	if (histy[j] > maxvaluey) {
+		// 		maxvaluey = histy[j];
+		// 		maxpositiony = j;
+		// 	}
+		// }
 
 		/* check if there is a peak value in histogram */
 		if (1) { //(histx[maxpositionx] > meancount / 6 && histy[maxpositiony] > meancount / 6)
