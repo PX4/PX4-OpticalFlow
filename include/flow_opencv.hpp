@@ -17,6 +17,9 @@
 #include "optical_flow.hpp"
 #include "trackFeatures.h"
 
+#define DEFAULT_NUMBER_OF_FEATURES 20
+#define DEFAULT_CONFIDENCE_MULTIPLIER 1.645f //90% confidence interval
+
 class OpticalFlowOpenCV : public OpticalFlow {
 
   private:
@@ -36,7 +39,7 @@ class OpticalFlowOpenCV : public OpticalFlow {
     inline int getConfMultiplier() { return confidence_multiplier; };
 
     OpticalFlowOpenCV( float f_length_x, float f_length_y, int output_rate = DEFAULT_OUTPUT_RATE,
-      int num_feat = 20, float conf_multi = 1.645f );
+      int num_feat = DEFAULT_NUMBER_OF_FEATURES, float conf_multi = DEFAULT_CONFIDENCE_MULTIPLIER );
     ~OpticalFlowOpenCV();
 
     int calcFlow( const cv::Mat &img_current, const uint32_t &img_time_us, int &dt_us,

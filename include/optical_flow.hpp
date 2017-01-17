@@ -5,11 +5,13 @@
 *      Author: Christoph
 */
 
+#pragma once
+
 #include <stdint.h>
 #include <iostream>
 #include <cmath>
 
-#pragma once
+#define DEFAULT_OUTPUT_RATE 15
 
 class OpticalFlow {
 
@@ -24,9 +26,6 @@ class OpticalFlow {
     float sum_flow_y;
     int sum_flow_quality;
     int valid_frame_count;
-
-    //consts
-    static const int DEFAULT_OUTPUT_RATE = 15;
 
     void initLimitRate();
     int limitRate(int flow_quality, const uint32_t frame_time_us, int *dt_us,
