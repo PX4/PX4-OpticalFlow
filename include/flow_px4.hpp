@@ -49,21 +49,22 @@
 #define DEFAULT_FLOW_FEATURE_THRESHOLD 30
 #define DEFAULT_FLOW_VALUE_THRESHOLD 3000
 
-class OpticalFlowPX4 : public OpticalFlow {
+class OpticalFlowPX4 : public OpticalFlow
+{
 
-  private:
-    //params which can be set
-    PX4Flow *px4_flow;
+private:
 
-  public:
+	PX4Flow *px4_flow;
 
-    OpticalFlowPX4( float f_length_x, float f_length_y, int ouput_rate = DEFAULT_OUTPUT_RATE,
-          int image_width = DEFAULT_IMAGE_WIDTH, int search_size = DEFAULT_SEARCH_SIZE,
-          int flow_feature_threshold = DEFAULT_FLOW_FEATURE_THRESHOLD,
-          int flow_value_threshold = DEFAULT_FLOW_VALUE_THRESHOLD );
-    ~OpticalFlowPX4();
+public:
 
-    int calcFlow(const cv::Mat &img_current, const uint32_t &img_time_us, int &dt_us,
-      float &flow_x, float &flow_y);
+	OpticalFlowPX4(float f_length_x, float f_length_y, int ouput_rate = DEFAULT_OUTPUT_RATE,
+		       int image_width = DEFAULT_IMAGE_WIDTH, int search_size = DEFAULT_SEARCH_SIZE,
+		       int flow_feature_threshold = DEFAULT_FLOW_FEATURE_THRESHOLD,
+		       int flow_value_threshold = DEFAULT_FLOW_VALUE_THRESHOLD);
+	~OpticalFlowPX4();
+
+	int calcFlow(const cv::Mat &img_current, const uint32_t &img_time_us, int &dt_us,
+		     float &flow_x, float &flow_y);
 
 };
