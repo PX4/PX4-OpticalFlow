@@ -1,3 +1,0 @@
-[submodule "external/klt_feature_tracker"]
-	path = external/klt_feature_tracker
-	url = https://github.com/ethz-ait/klt_feature_tracker.git
