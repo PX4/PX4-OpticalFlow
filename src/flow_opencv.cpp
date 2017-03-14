@@ -56,12 +56,34 @@ OpticalFlowOpenCV::OpticalFlowOpenCV(float f_length_x, float f_length_y, int oup
 	setFocalLengthY(f_length_y);
 	setOutputRate(ouput_rate);
 
+	set_camera_matrix = false;
+	set_camera_distortion = false;
+	camera_matrix.create(3, 3);
+	camera_distortion.create(1, 5);
+
 	initLimitRate();
 }
 
 OpticalFlowOpenCV::~OpticalFlowOpenCV(void)
 {
 
+}
+
+void OpticalFlowOpenCV::setCameraMatrix(float focal_len_x, float focal_len_y,
+					float principal_point_x, float principal_point_y)
+{
+	camera_matrix <<   focal_len_x, 0.0f, principal_point_x,
+		      0.0f, focal_len_y, principal_point_y,
+		      0.0f, 0.0f, 1.0f;
+
+	set_camera_matrix = true;
+}
+
+void OpticalFlowOpenCV::setCameraDistortion(float k1, float k2, float k3, float p1, float p2)
+{
+	camera_distortion <<   k1, k2, p1, p2, k3;
+
+	set_camera_distortion = true;
 }
 
 int OpticalFlowOpenCV::calcFlow(uint8_t *img_current, const uint32_t &img_time_us, int &dt_us,
@@ -83,7 +105,18 @@ int OpticalFlowOpenCV::calcFlow(uint8_t *img_current, const uint32_t &img_time_u
 
 	trackFeatures(frame_gray, frame_gray, features_current, useless, updateVector, 0);
 
-	//TODO undistort points? not necessary if small field of view?
+	if (set_camera_matrix && set_camera_distortion) {
+		features_tmp = features_current;
+		cv::undistortPoints(features_tmp, features_current, camera_matrix, camera_distortion);
+
+		// cv::undistortPoints returns normalized coordinates... -> convert
+		for (int i = 0; i < num_features; i++) {
+			features_current[i].x = features_current[i].x * camera_matrix(0, 0) +
+						camera_matrix(0, 2);
+			features_current[i].y = features_current[i].y * camera_matrix(1, 1) +
+						camera_matrix(1, 2);
+		}
+	}
 
 	if (!features_current.empty() && !features_previous.empty()) {
 		//calculate pixel flow

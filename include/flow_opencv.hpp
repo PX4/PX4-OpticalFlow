@@ -60,14 +60,20 @@ private:
 	//params which can be set
 	int num_features;
 	float confidence_multiplier;
+	cv::Mat_<float> camera_matrix;
+	cv::Mat_<float> camera_distortion;
 	//general
 	std::vector<int> updateVector;
-	std::vector<cv::Point2f> features_current, features_previous, useless;
+	std::vector<cv::Point2f> features_current, features_previous, features_tmp, useless;
+	bool set_camera_matrix;
+	bool set_camera_distortion;
 
 public:
 
 	inline void setNumFeatures(int n_feat) { num_features = n_feat; };
 	inline void setConfMultiplier(float conf_multi) { confidence_multiplier = conf_multi; };
+	void setCameraMatrix(float focal_len_x, float focal_len_y, float principal_point_x, float principal_point_y);
+	void setCameraDistortion(float k1, float k2, float k3, float p1 = 0.0f, float p2 = 0.0f);
 
 	inline int getNumFeatures() { return num_features; };
 	inline int getConfMultiplier() { return confidence_multiplier; };
