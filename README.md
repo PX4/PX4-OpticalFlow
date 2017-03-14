@@ -69,3 +69,9 @@ If you have a camera calibration, you can [undistort](http://docs.opencv.org/3.1
 * Tangential coefficient p2
 
 An example can be found [here](https://github.com/PX4/sitl_gazebo/blob/master/src/gazebo_opticalFlow_plugin.cpp#L141-L195).
+
+## Code style
+For code formatting [astyle](http://astyle.sourceforge.net/astyle.html) should be used with the `.astylerc` options file.
+```
+astyle <file> --options=.astylerc
+```
