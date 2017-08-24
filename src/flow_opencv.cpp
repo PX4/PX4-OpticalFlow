@@ -100,7 +100,7 @@ int OpticalFlowOpenCV::calcFlow(uint8_t *img_current, const uint32_t &img_time_u
 	float pixel_flow_x_stddev = 0.0;
 	float pixel_flow_y_stddev = 0.0;
 
-	static cv::Mat frame_gray = cv::Mat(image_height, image_width, CV_8UC1);
+	cv::Mat frame_gray = cv::Mat(image_height, image_width, CV_8UC1);
 	frame_gray.data = (uchar *)img_current;
 
 	trackFeatures(frame_gray, frame_gray, features_current, useless, updateVector, 0);
