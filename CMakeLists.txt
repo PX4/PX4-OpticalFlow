@@ -70,7 +70,7 @@ if(OpenCV_FOUND AND OPENCV)
 
     include_directories(OpticalFlow_INCLUDE_DIRS)
 
-    add_library( OpticalFlow SHARED
+    add_library( OpticalFlow
       src/optical_flow.cpp
       src/px4flow.cpp
      	src/flow_px4.cpp
@@ -90,7 +90,7 @@ else()
 
     include_directories(OpticalFlow_INCLUDE_DIRS)
 
-    add_library( OpticalFlow SHARED
+    add_library( OpticalFlow
       src/optical_flow.cpp
       src/px4flow.cpp
      	src/flow_px4.cpp
@@ -99,24 +99,3 @@ else()
 endif()
 
 target_include_directories(OpticalFlow PUBLIC include)
-
-# Generate the Config file from the .in file, doing @VAR@ substitution only
-configure_file(OpticalFlowConfig.cmake.in FindOpticalFlow.cmake @ONLY)
-
-# INSTALL STEPS
-INSTALL(
-  TARGETS OpticalFlow
-  RUNTIME DESTINATION lib
-  LIBRARY DESTINATION lib)
-
-INSTALL(
-  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/external/klt_feature_tracker/include/
-  DESTINATION include)
-
-INSTALL(
-  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/
-  DESTINATION include)
-
-INSTALL(
-  FILES ${CMAKE_BINARY_DIR}/FindOpticalFlow.cmake
-  DESTINATION ${CMAKE_INSTALL_PREFIX})
