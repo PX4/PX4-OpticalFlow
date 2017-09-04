@@ -69,6 +69,8 @@ protected:
 
 public:
 
+	virtual ~OpticalFlow(){};
+
 	inline void setImageWidth(int img_width) { image_width = img_width; };
 	inline void setImageHeight(int img_height) { image_height = img_height; };
 	inline void setFocalLengthX(float f_lengh) { focal_length_x = f_lengh; };
