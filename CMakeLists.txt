@@ -54,11 +54,12 @@ set(${PROJECT_NAME}_INCLUDE_DIRS
     CACHE INTERNAL "${PROJECT_NAME}: Include Directories" FORCE)
 
 find_package( OpenCV REQUIRED )
+OPTION(OPENCV "ON for OpenCV" ON) # -DOPENCV=OFF
 
 add_subdirectory( external/klt_feature_tracker klt_feature_tracker )
 set( klt_feature_tracker_LIBS "klt_feature_tracker" )
 
-if(OpenCV_FOUND)
+if(OpenCV_FOUND AND OPENCV)
     message(STATUS "Building ${PROJECT_NAME} with OpenCV")
 
     set(OpticalFlow_INCLUDE_DIRS
