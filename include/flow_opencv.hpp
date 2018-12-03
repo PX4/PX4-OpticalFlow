@@ -41,11 +41,8 @@
 #pragma once
 
 #include <iostream>
-#include <cv.h>
+#include <opencv2/opencv.hpp>
 #include <cmath>
-
-#include "opencv2/features2d/features2d.hpp"
-#include "opencv2/video/tracking.hpp"
 
 #include "optical_flow.hpp"
 #include "trackFeatures.h"
