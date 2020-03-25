@@ -47,7 +47,6 @@ set(version "${version_major}.${version_minor}.${version_patch}")
 set(package-contact "christoph@px4.io")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpic")
-set(CMAKE_BUILD_TYPE Release)
 
 set(${PROJECT_NAME}_INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include
