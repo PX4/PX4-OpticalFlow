@@ -1,4 +1,4 @@
-# PX4 Optical Flow repository
+# PX4 Optical Flow repository is very usefull   
 This package provides different algorithms to calculate the optical flow. Currently, there is the PX4Flow algorithm (SAD-block-matching) and an OpenCV based (KLT) version.
 
 Please feel free to improve the current algorithms or add new versions.
