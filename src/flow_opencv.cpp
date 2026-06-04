@@ -137,8 +137,8 @@ int OpticalFlowOpenCV::calcFlow(uint8_t *img_current, const uint32_t &img_time_u
 			//calculate variance
 			for (int i = 0; i < updateVector.size(); i++) {
 				if (updateVector[i] == 1) {
-					pixel_flow_x_stddev += pow(features_current[i].x - features_previous[i].x - pixel_flow_x_mean, 2);
-					pixel_flow_y_stddev += pow(features_current[i].y - features_previous[i].y - pixel_flow_y_mean, 2);
+					pixel_flow_x_stddev += powf(features_current[i].x - features_previous[i].x - pixel_flow_x_mean, 2);
+					pixel_flow_y_stddev += powf(features_current[i].y - features_previous[i].y - pixel_flow_y_mean, 2);
 				}
 			}
 
