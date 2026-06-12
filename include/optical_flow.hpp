@@ -41,8 +41,6 @@
 #pragma once
 
 #include <stdint.h>
-#include <iostream>
-#include <cmath>
 
 #define DEFAULT_OUTPUT_RATE 15
 #define DEFAULT_IMAGE_WIDTH 64
@@ -73,8 +71,8 @@ public:
 
 	inline void setImageWidth(int img_width) { image_width = img_width; };
 	inline void setImageHeight(int img_height) { image_height = img_height; };
-	inline void setFocalLengthX(float f_lengh) { focal_length_x = f_lengh; };
-	inline void setFocalLengthY(float f_lengh) { focal_length_y = f_lengh; };
+	inline void setFocalLengthX(float f_length) { focal_length_x = f_length; };
+	inline void setFocalLengthY(float f_length) { focal_length_y = f_length; };
 	inline void setOutputRate(int out_rate) { output_rate = out_rate; };   //TODO check valid range 10-20?
 
 	inline int getImageWidth() { return image_width; };

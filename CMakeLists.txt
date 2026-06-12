@@ -46,7 +46,7 @@ set(${PROJECT_NAME}_INCLUDE_DIRS
     ${PROJECT_SOURCE_DIR}/include
     CACHE INTERNAL "${PROJECT_NAME}: Include Directories" FORCE)
 
-find_package( OpenCV REQUIRED )
+find_package(OpenCV REQUIRED COMPONENTS core)
 OPTION(OPENCV "ON for OpenCV" ON) # -DOPENCV=OFF
 
 add_subdirectory( external/klt_feature_tracker klt_feature_tracker )

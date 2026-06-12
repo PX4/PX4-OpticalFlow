@@ -42,7 +42,8 @@
 ****************************************************************************/
 
 #include "flow_px4.hpp"
-#include <iostream>
+#include <cstring>
+#include <cmath>
 
 OpticalFlowPX4::OpticalFlowPX4(float f_length_x, float f_length_y, int ouput_rate, int img_width, int img_height,
 			       int search_size, int flow_feature_threshold, int flow_value_threshold)
@@ -89,8 +90,8 @@ int OpticalFlowPX4::calcFlow(uint8_t *img_current, const uint32_t &img_time_us, 
 
 	flow_quality = limitRate(flow_quality, img_time_us, &dt_us, &flow_x, &flow_y);
 
-	flow_x = atan2(flow_x, focal_length_x); //convert pixel flow to angular flow
-	flow_y = atan2(flow_y, focal_length_y); //convert pixel flow to angular flow
+	flow_x = std::atan2(flow_x, focal_length_x); //convert pixel flow to angular flow
+	flow_y = std::atan2(flow_y, focal_length_y); //convert pixel flow to angular flow
 
 	return flow_quality;
 

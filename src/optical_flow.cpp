@@ -39,6 +39,7 @@
 */
 
 #include "optical_flow.hpp"
+#include <cmath>
 
 void OpticalFlow::initLimitRate()
 {

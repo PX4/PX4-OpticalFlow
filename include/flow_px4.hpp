@@ -42,7 +42,6 @@
 
 #include "optical_flow.hpp"
 #include "px4flow.hpp"
-#include <memory.h>
 
 #define DEFAULT_SEARCH_SIZE 6
 #define DEFAULT_FLOW_FEATURE_THRESHOLD 30
