@@ -72,16 +72,16 @@ OpticalFlowOpenCV::~OpticalFlowOpenCV(void)
 void OpticalFlowOpenCV::setCameraMatrix(float focal_len_x, float focal_len_y,
 					float principal_point_x, float principal_point_y)
 {
-	camera_matrix <<   focal_len_x, 0.0f, principal_point_x,
+	camera_matrix = cv::Mat(cv::Matx33f(focal_len_x, 0.0f, principal_point_x,
 		      0.0f, focal_len_y, principal_point_y,
-		      0.0f, 0.0f, 1.0f;
+		      0.0f, 0.0f, 1.0f));
 
 	set_camera_matrix = true;
 }
 
 void OpticalFlowOpenCV::setCameraDistortion(float k1, float k2, float k3, float p1, float p2)
 {
-	camera_distortion <<   k1, k2, p1, p2, k3;
+	camera_distortion = cv::Mat(cv::Matx<float, 1, 5>(k1, k2, p1, p2, k3));
 
 	set_camera_distortion = true;
 }
