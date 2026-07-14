@@ -42,6 +42,9 @@
 
 #include <iostream>
 #include <opencv2/opencv.hpp>
+// cv::undistortPoints: OpenCV 5 moved it out of the opencv.hpp umbrella;
+// calib3d.hpp is the compatibility header and exists on OpenCV 3.x/4.x too.
+#include <opencv2/calib3d.hpp>
 #include <cmath>
 
 #include "optical_flow.hpp"
