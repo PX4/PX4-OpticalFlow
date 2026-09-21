@@ -95,10 +95,10 @@ int OpticalFlowOpenCV::calcFlow(uint8_t *img_current, const uint32_t &img_time_u
 	}
 
 	int meancount = 0;
-	float pixel_flow_x_mean = 0.0;
-	float pixel_flow_y_mean = 0.0;
-	float pixel_flow_x_stddev = 0.0;
-	float pixel_flow_y_stddev = 0.0;
+	float pixel_flow_x_mean = 0.0f;
+	float pixel_flow_y_mean = 0.0f;
+	float pixel_flow_x_stddev = 0.0f;
+	float pixel_flow_y_stddev = 0.0f;
 
 	cv::Mat frame_gray = cv::Mat(image_height, image_width, CV_8UC1);
 	frame_gray.data = (uchar *)img_current;
@@ -120,7 +120,7 @@ int OpticalFlowOpenCV::calcFlow(uint8_t *img_current, const uint32_t &img_time_u
 
 	if (!features_current.empty() && !features_previous.empty()) {
 		//calculate pixel flow
-		for (int i = 0; i < updateVector.size(); i++) {
+		for (size_t i = 0; i < updateVector.size(); i++) {
 			//just use active features
 			if (updateVector[i] == 1) {
 				pixel_flow_x_mean += features_current[i].x - features_previous[i].x;
@@ -135,7 +135,7 @@ int OpticalFlowOpenCV::calcFlow(uint8_t *img_current, const uint32_t &img_time_u
 			pixel_flow_y_mean /= meancount;
 
 			//calculate variance
-			for (int i = 0; i < updateVector.size(); i++) {
+			for (size_t i = 0; i < updateVector.size(); i++) {
 				if (updateVector[i] == 1) {
 					pixel_flow_x_stddev += powf(features_current[i].x - features_previous[i].x - pixel_flow_x_mean, 2);
 					pixel_flow_y_stddev += powf(features_current[i].y - features_previous[i].y - pixel_flow_y_mean, 2);
@@ -143,15 +143,15 @@ int OpticalFlowOpenCV::calcFlow(uint8_t *img_current, const uint32_t &img_time_u
 			}
 
 			//convert to standard deviation
-			pixel_flow_x_stddev = sqrt(pixel_flow_x_stddev / meancount);
-			pixel_flow_y_stddev = sqrt(pixel_flow_y_stddev / meancount);
+			pixel_flow_x_stddev = sqrtf(pixel_flow_x_stddev / meancount);
+			pixel_flow_y_stddev = sqrtf(pixel_flow_y_stddev / meancount);
 
 			//recalculate pixel flow with 90% confidence interval
-			float temp_flow_x_mean = 0.0;
-			float temp_flow_y_mean = 0.0;
+			float temp_flow_x_mean = 0.0f;
+			float temp_flow_y_mean = 0.0f;
 			meancount = 0;
 
-			for (int i = 0; i < updateVector.size(); i++) {
+			for (size_t i = 0; i < updateVector.size(); i++) {
 				//check if active
 				if (updateVector[i] == 1) {
 					//flow of feature i
@@ -159,8 +159,8 @@ int OpticalFlowOpenCV::calcFlow(uint8_t *img_current, const uint32_t &img_time_u
 					float temp_flow_y = features_current[i].y - features_previous[i].y;
 					//check if inside confidence interval
 
-					if (fabs(temp_flow_x - pixel_flow_x_mean) < pixel_flow_x_stddev * confidence_multiplier &&
-					    fabs(temp_flow_y - pixel_flow_y_mean) < pixel_flow_y_stddev * confidence_multiplier) {
+					if (fabsf(temp_flow_x - pixel_flow_x_mean) < pixel_flow_x_stddev * confidence_multiplier &&
+					    fabsf(temp_flow_y - pixel_flow_y_mean) < pixel_flow_y_stddev * confidence_multiplier) {
 						temp_flow_x_mean += temp_flow_x;
 						temp_flow_y_mean += temp_flow_y;
 						meancount++;
@@ -183,7 +183,7 @@ int OpticalFlowOpenCV::calcFlow(uint8_t *img_current, const uint32_t &img_time_u
 	features_previous = features_current;
 
 	//update feature status
-	for (int i = 0; i < updateVector.size(); i++) {
+	for (size_t i = 0; i < updateVector.size(); i++) {
 		//new and now active
 		if (updateVector[i] == 2) {
 			updateVector[i] = 1;
@@ -203,8 +203,8 @@ int OpticalFlowOpenCV::calcFlow(uint8_t *img_current, const uint32_t &img_time_u
 
 	flow_quality = limitRate(flow_quality, img_time_us, &dt_us, &flow_x, &flow_y);
 
-	flow_x = atan2(flow_x, focal_length_x); //convert pixel flow to angular flow
-	flow_y = atan2(flow_y, focal_length_y); //convert pixel flow to angular flow
+	flow_x = atan2f(flow_x, focal_length_x); //convert pixel flow to angular flow
+	flow_y = atan2f(flow_y, focal_length_y); //convert pixel flow to angular flow
 
 	return flow_quality;
 }
